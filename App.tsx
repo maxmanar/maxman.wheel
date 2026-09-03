@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { WheelItem, WheelConfig, WinnerRecord } from './types';
-import { soundManager } from './utils/sound';
+import { soundManager } from './sound';
 import confetti from 'canvas-confetti';
 import { Menu, X, Plus, Trash2, Play, Sparkles, Trophy, History, Settings, Volume2, VolumeX, RotateCcw, Timer, Flag, MessageSquare, Hash, List, Home, CheckCircle } from 'lucide-react';
 
