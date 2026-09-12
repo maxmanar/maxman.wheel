@@ -8,6 +8,7 @@
   <title>عزنا بطبعنا | عجلة المسابقات</title>
   <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
   <link rel="stylesheet" href="./style.css">
+  <script src="./questions.js" defer></script>
   <script src="./app.js" defer></script>
 </head>
 <body>
@@ -90,7 +91,7 @@
         <strong id="owner-name">اختر رقمًا أولًا</strong><p id="owner-stats" class="hint"></p>
         <div class="owner-metrics" aria-label="نتائج صاحب الدور">
           <div><strong id="owner-answered">٠</strong><span>أجاب</span></div><div><strong id="owner-total">٠</strong><span>كل الأسئلة</span></div>
-          <div><strong id="owner-unknown">٠</strong><span>لم يعرف</span></div><div><strong id="owner-timeout">٠</strong><span>انتهى الوقت</span></div>
+          <div><strong id="owner-unknown">٠</strong><span>خطأ / لم يعرف</span></div><div><strong id="owner-timeout">٠</strong><span>انتهى الوقت</span></div>
         </div>
         <button id="owner-info" class="primary wide" type="button">عرض معلوماته</button>
         <button id="reset-owner" class="text-button wide" type="button">إعادة ضبط معلومات صاحب الدور</button>
@@ -100,6 +101,7 @@
         <div class="session-row"><span>المشاركون الذين اختيروا</span><strong id="session-participants">٠</strong></div>
         <div class="session-row"><span>الأسئلة التي طُرحت</span><strong id="session-questions">٠</strong></div>
         <button id="participants" class="secondary wide" type="button">معلومات المشاركين <span aria-hidden="true">←</span></button>
+        <button id="clear-competition" class="text-button danger-text wide" type="button">مسح جميع معلومات المشاركين</button>
       </section>
       <div class="round-note"><span aria-hidden="true">✦</span><p>حماسنا يجمعنا.<small>كل دور فرصة، وكل سؤال حكاية.</small></p></div>
     </aside>
@@ -114,9 +116,12 @@
 <div id="question-area" hidden>
 <div id="timer" role="timer"></div><progress id="time-progress" max="100" value="100" aria-label="الوقت المتبقي"></progress>
 <p id="attempt-status" class="attempt-status" role="status"></p>
+<p id="choices-help" class="hint">اختر إجابة واحدة؛ يُسجّل اختيارك فور الضغط عليها.</p>
+<div id="answer-choices" class="answer-choices" role="group" aria-label="اختيارات الإجابة" aria-describedby="choices-help"></div>
+<p id="choice-feedback" class="choice-feedback" role="status" aria-atomic="true"></p>
 <div id="answer" hidden></div>
 <div class="answer-actions"><button id="mark-answered" class="primary">أجاب عن السؤال</button><button id="unknown" class="secondary">عدم معرفة السؤال</button><button id="reveal" class="secondary">إظهار إجابة السؤال</button><button id="skip-question" class="secondary">تخطي السؤال</button></div>
-<p id="score-help" class="hint">احتسب الإجابة بعد التحقق منها؛ إظهارها وحده لا يُحتسب إجابة.</p>
+<p id="score-help" class="hint">للإجابات الشفهية، استخدم أزرار التقييم اليدوي. إظهار الإجابة وحده لا يمنح نقطة.</p>
 </div>
 <button id="next-question" class="primary wide" hidden>اختيار سؤال لهذا الرقم</button>
 <button id="next-number" class="secondary wide" hidden>اختيار رقم آخر</button>
@@ -129,6 +134,7 @@
 <label for="participant-select">الرقم أو المشارك</label><select id="participant-select" class="wide-select"></select>
 <p id="participants-empty" class="hint" hidden>اختر رقمًا من العجلة لتبدأ معلوماته بالظهور هنا.</p>
 <div id="participant-details"><div id="participant-stats" class="stats-grid"></div><h3>أسئلته ونتائجها</h3><ol id="participant-questions" class="participant-questions"></ol><button id="resume-participant" class="primary wide">متابعة الأسئلة لهذا الرقم</button></div>
+<div class="clear-data-area"><button id="clear-participants" class="danger wide" type="button">مسح جميع معلومات المشاركين والأرقام</button><p class="hint">يحذف الأسماء والأرقام والنتائج والسجل، ويجهّز الأسئلة لجولة جديدة.</p><p id="clear-data-feedback" role="status"></p></div>
 </dialog><dialog id="confirm-dialog" aria-labelledby="confirm-title" aria-describedby="confirm-message">
 <h2 id="confirm-title"></h2><p id="confirm-message"></p>
 <div class="dialog-actions"><button id="confirm-accept" class="danger" type="button">تأكيد</button><button id="confirm-cancel" class="secondary" type="button" autofocus>تراجع</button></div>
