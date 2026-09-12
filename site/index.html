@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0c493a">
+  <meta name="description" content="عجلة عزنا بطبعنا: اختيار المشاركين وأسئلة الوطن، مع مؤقت للإجابة وسجل ونتائج لكل مشارك.">
+  <title>عزنا بطبعنا | عجلة المسابقات</title>
+  <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
+  <link rel="stylesheet" href="./style.css">
+  <script src="./app.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#play-title">انتقل إلى العجلة</a>
+<div class="national-border" aria-hidden="true"></div>
+<header class="site-header">
+  <a class="brand" href="./" aria-label="عجلة المسابقات، الرئيسية">
+    <span class="brand-icon" aria-hidden="true">✦</span>
+    <span>عجلة المسابقات<small>نجتمع على الحماس</small></span>
+  </a>
+  <nav class="mode-switch" aria-label="وضع المسابقة">
+    <button id="national" class="active" type="button">اليوم الوطني</button>
+    <button id="normal" type="button">الوضع العادي</button>
+  </nav>
+  <div class="tools">
+    <button id="sound" type="button" aria-label="تبديل الصوت">الصوت: مفعّل</button>
+    <button id="settings" type="button">الإعدادات</button>
+  </div>
+</header>
+<main>
+  <p id="storage-status" class="storage-status" role="status" hidden></p>
+  <section class="banner" aria-labelledby="slogan">
+    <div class="hero-copy">
+      <span class="eyebrow">اليوم الوطني السعودي السادس والتسعون · ٢٣ سبتمبر</span>
+      <h1 id="slogan">عزّنا <em>بطبعنا.</em></h1>
+      <p id="intro">وطنٌ نفخر به، وعزٌّ نعتزّ به.</p>
+    </div>
+    <div class="hero-journey" aria-label="خطوات المسابقة">
+      <div><span>١</span><p>اجمع المشاركين<small>أسماء أو أرقام</small></p></div>
+      <div><span>٢</span><p>أدر العجلة<small>والاختيار للحظ</small></p></div>
+      <div><span>٣</span><p>ابدأ التحدّي<small>واجعلها لحظة حماس</small></p></div>
+    </div>
+    <img class="national-logo" src="./assets/national-logo.png" width="178" height="82" alt="عزنا بطبعنا — اليوم الوطني السعودي">
+    <div class="pattern" aria-hidden="true">✦</div>
+  </section>
+  <div class="workspace">
+    <aside class="entries-panel panel" aria-labelledby="entries-title">
+      <div class="section-heading"><div><span class="eyebrow">جهّز المسابقة</span><h2 id="entries-title">المشاركون</h2></div><span id="count" class="count">٠</span></div>
+      <div id="names-controls">
+        <form id="add-form">
+          <label for="entry">أضف اسمًا أو رقمًا</label>
+          <div class="input-row"><input id="entry" maxlength="120" placeholder="اسم المشارك أو رقمه" required autocomplete="off"><button class="primary add-button" type="submit" aria-label="إضافة المشارك">+</button></div>
+        </form>
+        <form id="number-form">
+          <label for="number">أرقام متسلسلة من ١ إلى</label>
+          <div class="input-row"><input id="number" type="text" inputmode="numeric" maxlength="4" value="10" required><button type="submit" class="secondary">إضافة</button></div>
+        </form>
+        <div class="quick"><span>إضافة سريعة</span><button data-quick="10" type="button">١٠</button><button data-quick="20" type="button">٢٠</button><button data-quick="30" type="button">٣٠</button></div>
+      </div>
+      <div id="questions-controls" hidden>
+        <form id="question-number-form">
+          <label for="question-number">كم سؤالًا تريد أن تضيف؟</label>
+          <div class="input-row"><input id="question-number" type="text" inputmode="numeric" maxlength="3" value="10" aria-describedby="question-number-help" required><button id="add-questions" class="secondary" type="submit">إضافة</button></div>
+          <p id="question-number-help" class="hint"></p><p id="question-add-status" class="question-feedback" role="status"></p>
+        </form>
+        <label for="question-count">استعادة الأسئلة لجولة جديدة</label>
+        <div class="input-row"><select id="question-count"><option value="25">٢٥ سؤالًا</option><option value="50" selected>٥٠ سؤالًا</option><option value="100">١٠٠ سؤال</option><option value="150">١٥٠ سؤالًا</option></select><button id="restore" class="secondary" type="button">استعادة</button></div>
+        <p class="hint">استعادة الأسئلة تُبقي نتائج المشاركين محفوظة.</p>
+      </div>
+      <div class="list-heading"><span id="list-label">قائمة المشاركين</span><button id="clear" class="text-button" type="button">مسح الكل</button></div>
+      <ul id="entries"></ul>
+      <div class="panel-foot"><span><i aria-hidden="true">✓</i> يُزال الاختيار تلقائيًا لمنع التكرار</span><button id="history" class="secondary" type="button">سجل الاختيارات <span aria-hidden="true">←</span></button></div>
+    </aside>
+    <section class="play-panel panel" aria-labelledby="play-title">
+      <div class="section-heading"><div><span class="eyebrow">لحظة الاختيار</span><h2 id="play-title" tabindex="-1">عجلة المشاركين</h2></div><span class="badge" id="remaining"></span></div>
+      <div class="tabs" role="group" aria-label="نوع العجلة"><button id="names-tab" class="active" type="button">الأسماء والأرقام</button><button id="questions-tab" type="button">أسئلة الوطن</button></div>
+      <div class="wheel-stage">
+        <div class="wheel-wrap"><div class="pointer" aria-hidden="true"></div><canvas id="wheel" width="960" height="960" role="img" aria-label="عجلة الاختيار العشوائي"></canvas><div class="hub" aria-hidden="true">✦</div></div>
+        <span class="stage-star star-one" aria-hidden="true">✧</span><span class="stage-star star-two" aria-hidden="true">✦</span>
+      </div>
+      <div class="spin-controls"><button id="spin" class="primary spin" type="button" aria-describedby="spin-hint"><span id="spin-label">أَدِر العجلة</span><span id="spin-icon" aria-hidden="true">↻</span></button><button id="cancel-spin" class="secondary" type="button" hidden>إلغاء الدوران</button></div>
+      <p class="hint" id="spin-hint">أضف المشاركين، ثم أدر العجلة للاختيار.</p>
+      <button id="go-to-entries" class="text-button" type="button">إضافة المشاركين <span aria-hidden="true">←</span></button>
+      <p id="status" role="status" class="status"></p>
+    </section>
+    <aside class="round-panel" aria-label="الدور والنتائج">
+      <section id="owner-strip" class="owner-strip panel">
+        <div class="owner-topline"><span class="eyebrow">صاحب الدور</span><span class="live-dot" aria-hidden="true"></span></div>
+        <div class="owner-avatar" aria-hidden="true">✦</div>
+        <strong id="owner-name">اختر رقمًا أولًا</strong><p id="owner-stats" class="hint"></p>
+        <div class="owner-metrics" aria-label="نتائج صاحب الدور">
+          <div><strong id="owner-answered">٠</strong><span>أجاب</span></div><div><strong id="owner-total">٠</strong><span>كل الأسئلة</span></div>
+          <div><strong id="owner-unknown">٠</strong><span>لم يعرف</span></div><div><strong id="owner-timeout">٠</strong><span>انتهى الوقت</span></div>
+        </div>
+        <button id="owner-info" class="primary wide" type="button">عرض معلوماته</button>
+        <button id="reset-owner" class="text-button wide" type="button">إعادة ضبط معلومات صاحب الدور</button>
+      </section>
+      <section class="session-panel panel">
+        <div class="section-heading"><h2>ساحة المنافسة</h2><span aria-hidden="true">✧</span></div>
+        <div class="session-row"><span>المشاركون الذين اختيروا</span><strong id="session-participants">٠</strong></div>
+        <div class="session-row"><span>الأسئلة التي طُرحت</span><strong id="session-questions">٠</strong></div>
+        <button id="participants" class="secondary wide" type="button">معلومات المشاركين <span aria-hidden="true">←</span></button>
+      </section>
+      <div class="round-note"><span aria-hidden="true">✦</span><p>حماسنا يجمعنا.<small>كل دور فرصة، وكل سؤال حكاية.</small></p></div>
+    </aside>
+  </div>
+  <footer><span>صُنع للحظات تجمعنا <b aria-hidden="true">✦</b></span><span>عزنا بطبعنا · عجلة المسابقات</span></footer>
+</main>
+<dialog id="result-dialog" aria-labelledby="result-text">
+<button class="close" id="result-close" aria-label="إغلاق السؤال">×</button>
+<span class="eyebrow" id="result-label">وقع الاختيار على</span><div class="result-symbol" aria-hidden="true">✦</div>
+<div id="result-owner" class="result-owner" hidden><strong id="result-owner-name"></strong><span id="result-owner-stats"></span></div>
+<h2 id="result-text"></h2>
+<div id="question-area" hidden>
+<div id="timer" role="timer"></div><progress id="time-progress" max="100" value="100" aria-label="الوقت المتبقي"></progress>
+<p id="attempt-status" class="attempt-status" role="status"></p>
+<div id="answer" hidden></div>
+<div class="answer-actions"><button id="mark-answered" class="primary">أجاب عن السؤال</button><button id="unknown" class="secondary">عدم معرفة السؤال</button><button id="reveal" class="secondary">إظهار إجابة السؤال</button><button id="skip-question" class="secondary">تخطي السؤال</button></div>
+<p id="score-help" class="hint">احتسب الإجابة بعد التحقق منها؛ إظهارها وحده لا يُحتسب إجابة.</p>
+</div>
+<button id="next-question" class="primary wide" hidden>اختيار سؤال لهذا الرقم</button>
+<button id="next-number" class="secondary wide" hidden>اختيار رقم آخر</button>
+<button id="continue-result" class="secondary wide">العودة للعجلة</button>
+</dialog>
+<dialog id="settings-dialog" aria-labelledby="settings-title"><button class="close" aria-label="إغلاق" data-close>×</button><h2 id="settings-title">إعدادات المسابقة</h2><label class="setting">مدة الدوران<select id="duration"><option value="3">٣ ثوانٍ</option><option value="5">٥ ثوانٍ</option><option value="8">٨ ثوانٍ</option><option value="10">١٠ ثوانٍ</option></select></label><label class="setting">وقت السؤال بالثواني<input id="question-time" type="number" min="5" max="120"></label><label class="setting">قصاصات الاحتفال<input id="confetti" type="checkbox"></label><p class="hint">تُحفظ إعداداتك وقوائمك في هذا المتصفح.</p><button data-close class="primary wide">تم</button></dialog>
+<dialog id="history-dialog" aria-labelledby="history-title"><button class="close" aria-label="إغلاق" data-close>×</button><h2 id="history-title">سجل الاختيارات</h2><p id="history-empty" class="hint" hidden>السجل فارغ. ستظهر الاختيارات الجديدة هنا.</p><ol id="history-list"></ol><p id="history-feedback" role="status"></p><button id="clear-history" class="secondary wide">مسح السجل</button></dialog>
+<dialog id="participants-dialog" aria-labelledby="participant-heading">
+<button class="close" aria-label="إغلاق" data-close>×</button><h2 id="participant-heading">معلومات صاحب الرقم</h2>
+<label for="participant-select">الرقم أو المشارك</label><select id="participant-select" class="wide-select"></select>
+<p id="participants-empty" class="hint" hidden>اختر رقمًا من العجلة لتبدأ معلوماته بالظهور هنا.</p>
+<div id="participant-details"><div id="participant-stats" class="stats-grid"></div><h3>أسئلته ونتائجها</h3><ol id="participant-questions" class="participant-questions"></ol><button id="resume-participant" class="primary wide">متابعة الأسئلة لهذا الرقم</button></div>
+</dialog><dialog id="confirm-dialog" aria-labelledby="confirm-title" aria-describedby="confirm-message">
+<h2 id="confirm-title"></h2><p id="confirm-message"></p>
+<div class="dialog-actions"><button id="confirm-accept" class="danger" type="button">تأكيد</button><button id="confirm-cancel" class="secondary" type="button" autofocus>تراجع</button></div>
+</dialog>
+
+</body>
+</html>
