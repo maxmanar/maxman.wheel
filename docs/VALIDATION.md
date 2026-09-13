@@ -1,5 +1,15 @@
 # Verification
 
+## Canva embed — 2026-09-13
+
+The user-provided Canva embed URL was inserted above the competition, with its 16:9 container, lazy loading, an accessible iframe title, fullscreen permission, and a separate viewing link. Introductory copy and the three-step journey were aligned with watching the presentation and starting the competition. A native details control collapses or expands the presentation without altering competition data.
+
+Checked in Chromium 153 at 320×740, 390×844, 768×1024, 1024×768, 1440×1000, and 844×390. Containers and headings had no horizontal overflow, and frame dimensions retained the intended aspect ratio. Desktop and phone screenshots were inspected. Mouse collapse, keyboard expansion, the competition anchor and focus target, mode switching, participant selection, manual question preparation and four-choice grading were exercised successfully. No page JavaScript errors were observed.
+
+The Canva server returned `net::ERR_EMPTY_RESPONSE` from the preview environment. The actual Canva slide content and fullscreen playback could not be verified there. The exact supplied embed address and fullscreen attributes were retained; this limitation did not prevent checking the surrounding layout and game interactions. The separate viewing link remains available below the frame.
+
+## Previous game checks — 2026-09-12
+
 Validated in Chromium 153 with Playwright on 2026-09-12.
 
 28 groups of checks passed (17 existing interaction groups and 11 checks for choices and full deletion). No JavaScript or console errors occurred during the primary interaction suite.

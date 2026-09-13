@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#0c493a">
-  <meta name="description" content="عجلة عزنا بطبعنا: اختيار المشاركين وأسئلة الوطن، مع مؤقت للإجابة وسجل ونتائج لكل مشارك.">
+  <meta name="description" content="احتفِ باليوم الوطني السعودي مع عرض اليوم الوطني ٩٦ وعجلة عزنا بطبعنا: مشاركون وأسئلة باختيارات ومؤقت ونتائج لكل مشارك.">
   <title>عزنا بطبعنا | عجلة المسابقات</title>
   <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
   <link rel="stylesheet" href="./style.css">
@@ -34,17 +34,40 @@
     <div class="hero-copy">
       <span class="eyebrow">اليوم الوطني السعودي السادس والتسعون · ٢٣ سبتمبر</span>
       <h1 id="slogan">عزّنا <em>بطبعنا.</em></h1>
-      <p id="intro">وطنٌ نفخر به، وعزٌّ نعتزّ به.</p>
+      <p id="intro">شاهد عرض الوطن، ثم انطلق إلى المسابقة.</p>
     </div>
     <div class="hero-journey" aria-label="خطوات المسابقة">
-      <div><span>١</span><p>اجمع المشاركين<small>أسماء أو أرقام</small></p></div>
-      <div><span>٢</span><p>أدر العجلة<small>والاختيار للحظ</small></p></div>
-      <div><span>٣</span><p>ابدأ التحدّي<small>واجعلها لحظة حماس</small></p></div>
+      <div><span>١</span><p>شاهد العرض<small>نحتفي بالوطن</small></p></div>
+      <div><span>٢</span><p>جهّز المشاركين<small>أسماء أو أرقام</small></p></div>
+      <div><span>٣</span><p>ابدأ التحدّي<small>أدر العجلة وجرّب حظك</small></p></div>
     </div>
     <img class="national-logo" src="./assets/national-logo.png" width="178" height="82" alt="عزنا بطبعنا — اليوم الوطني السعودي">
     <div class="pattern" aria-hidden="true">✦</div>
   </section>
-  <div class="workspace">
+  <section class="presentation-section" aria-labelledby="presentation-title">
+    <details id="national-presentation" class="presentation panel" open>
+      <summary>
+        <span class="presentation-heading"><span class="eyebrow">اليوم الوطني السعودي · ٩٦</span><span id="presentation-title">نحتفي بالوطن، ونبدأ التحدّي.</span></span>
+        <span class="presentation-toggle"><span class="when-open">إخفاء العرض</span><span class="when-closed">إظهار العرض</span><span class="presentation-chevron" aria-hidden="true">⌃</span></span>
+      </summary>
+      <div class="presentation-layout">
+        <div class="presentation-copy">
+          <p>ابدأ بعرض اليوم الوطني السادس والتسعين، ثم اجمع المشاركين وانتقل إلى العجلة لتبدأ لحظات الحماس.</p>
+          <a class="primary presentation-start" href="#competition">انتقل إلى المسابقة <span aria-hidden="true">↓</span></a>
+          <p class="hint">يمكنك إخفاء العرض أثناء اللعب، أو مشاهدته بملء الشاشة من داخل المشغّل.</p>
+        </div>
+        <figure class="presentation-media">
+          <div class="canva-frame">
+            <iframe id="canva-presentation" title="عرض اليوم الوطني السعودي ٩٦ من Canva" loading="lazy" width="1280" height="720"
+              src="https://www.canva.com/design/DAHUykI_eY0/jSCGh-_ZVs8PO_nVZlPQOA/view?embed"
+              allowfullscreen="allowfullscreen" allow="fullscreen" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+          </div>
+          <figcaption><span>عرض اليوم الوطني ٩٦</span><a href="https://www.canva.com/design/DAHUykI_eY0/jSCGh-_ZVs8PO_nVZlPQOA/view?utm_content=DAHUykI_eY0&amp;utm_campaign=designshare&amp;utm_medium=embeds&amp;utm_source=link" target="_blank" rel="noopener noreferrer">فتح العرض في صفحة مستقلة <span aria-hidden="true">↗</span><span class="visually-hidden"> (يفتح في تبويب جديد)</span></a></figcaption>
+        </figure>
+      </div>
+    </details>
+  </section>
+  <div class="workspace" id="competition" tabindex="-1" role="region" aria-label="ساحة المسابقة">
     <aside class="entries-panel panel" aria-labelledby="entries-title">
       <div class="section-heading"><div><span class="eyebrow">جهّز المسابقة</span><h2 id="entries-title">المشاركون</h2></div><span id="count" class="count">٠</span></div>
       <div id="names-controls">

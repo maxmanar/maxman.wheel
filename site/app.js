@@ -125,7 +125,7 @@ function render(){
  document.body.classList.toggle('normal',!national);$('national').classList.toggle('active',national);$('normal').classList.toggle('active',!national);
  $('slogan').innerHTML=national?'عزّنا <em>بطبعنا.</em>':'اختيار واحد، <em>حماس للجميع.</em>';
  document.querySelector('.banner .eyebrow').textContent=national?'اليوم الوطني السعودي السادس والتسعون · ٢٣ سبتمبر':'عجلة المسابقات';
- $('intro').textContent=national?'وطنٌ نفخر به، وعزٌّ نعتزّ به.':'أضف الأسماء، وأطلق لحظة الاختيار.';
+ $('intro').textContent=national?'شاهد عرض الوطن، ثم انطلق إلى المسابقة.':'شاهد العرض، ثم أضف الأسماء وأطلق لحظة الاختيار.';
  $('questions-tab').hidden=!national;$('names-tab').classList.toggle('active',!isQ);$('questions-tab').classList.toggle('active',isQ);
  $('entries-title').textContent=isQ?'أسئلة الوطن':'المشاركون';$('list-label').textContent=isQ?'الأسئلة المتبقية':'قائمة المشاركين';
  $('names-controls').hidden=isQ;$('questions-controls').hidden=!isQ;$('remaining').textContent=ar(items().length)+(isQ?' سؤالًا متبقيًا':' مشاركًا');$('count').textContent=ar(items().length);
