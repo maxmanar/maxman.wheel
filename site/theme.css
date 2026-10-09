@@ -1,0 +1,150 @@
+/* Local Tajawal files keep the Arabic interface independent of external font services. */
+@font-face{font-family:"Tajawal";src:url("./fonts/Tajawal-Regular.ttf") format("truetype");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Tajawal";src:url("./fonts/Tajawal-Medium.ttf") format("truetype");font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:"Tajawal";src:url("./fonts/Tajawal-Bold.ttf") format("truetype");font-weight:700;font-style:normal;font-display:swap}
+:root{--font-ui:"Tajawal",Tahoma,Arial,sans-serif;--focus-ring:#b68b32}
+body{font-family:var(--font-ui);font-size:16px;line-height:1.85;font-kerning:normal}
+button,input,select{font-family:inherit}
+button{font-weight:500;line-height:1.6}
+h1,h2,h3,h4{font-weight:700;letter-spacing:0}
+h1,.personality-welcome h3{letter-spacing:0}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline-color:var(--focus-ring)}
+.presentation>summary:focus-visible{outline-color:var(--focus-ring)}
+.personality-scale-choice:has(input:focus-visible){outline-color:var(--focus-ring)}
+.brand{font-weight:700}
+.brand small{font-size:12px;letter-spacing:0}
+.eyebrow{font-size:12px;font-weight:500;letter-spacing:0}
+.mode-switch button{font-size:14px;font-weight:500}
+.mode-switch .active{font-weight:700}
+
+/* Normal mode: ink blue, sea glass accents, and clean cool white panels. */
+body.normal{--green:#25465d;--deep:#172f41;--ink:#213644;--muted:#586e7a;--paper:#f3f6f8;--white:#fff;--line:#dce5eb;--soft:#eaf1f5;--lime:#deecef;--gold:#3f8078;--focus-ring:#287d79;--shadow:0 10px 30px #25465d08}
+body.normal .mode-switch{background:#e6eef3;border-color:#d7e2e9}
+body.normal .brand-icon{background:var(--green);color:#c0e0dc;box-shadow:0 4px 14px #25465d12}
+body.normal .banner{background:#25465d;background:linear-gradient(115deg,#203d52,#376471)}
+body.normal .banner .eyebrow{color:#d5e5ee}
+body.normal .banner h1 em{color:#c0e3dc}
+body.normal .banner p{color:#edf5f8}
+body.normal .hero-journey small{color:#d0e3ea}
+body.normal .hero-journey>div>span{color:#c0e3dc;border-color:#bfdedb60}
+body.normal .wheel-wrap{border-color:#cbdbe4;background:repeating-conic-gradient(from 0deg,#c7d9e2 0deg 1deg,transparent 1deg 5deg);box-shadow:0 16px 32px #25465d0d}
+body.normal .hub{border-color:#b8dcd7;color:#c9e8e3;box-shadow:0 3px 12px #172f4126}
+body.normal .pointer{background:#69a69d}
+body.normal .stage-star{color:#50887f}
+body.normal .status{background:#f8fbfd}
+body.normal .count,body.normal .tabs{background:#edf3f7}
+body.normal .tools button,body.normal .panel{border-color:var(--line)}
+body.normal .primary{box-shadow:0 3px 9px #25465d0c}
+body.normal .spin{box-shadow:0 4px 0 var(--deep),0 8px 16px #25465d10}
+body.normal .spin.is-spinning{background:#a2593e;border-color:#a2593e;box-shadow:0 4px 0 #793e2c}
+body.normal dialog::backdrop{background:#142d40b8}
+
+/* Personality mode: gentle lavender, deep plum, and restrained complementary accents. */
+body.personality{--green:#6c527f;--deep:#473556;--ink:#302a3b;--muted:#6d6574;--line:#e5deed;--paper:#f7f5fa;--white:#fff;--soft:#efe9f5;--gold:#d7b77e;--lime:#e9e0f3;--focus-ring:#8965a7;--shadow:0 10px 30px #49345f07}
+body.personality .mode-switch{background:#ece5f3;border-color:#e0d5eb}
+body.personality .brand-icon{background:#634a78;color:#e6cfaa;box-shadow:0 4px 14px #49345f10}
+body.personality .banner{background:#614773;background:linear-gradient(115deg,#554065,#765485)}
+body.personality .banner .eyebrow{color:#ece3f3}
+body.personality .banner p{color:#f7f1fc}
+body.personality .banner h1 em{color:#ead4b0}
+body.personality .hero-journey small{color:#ece0f4}
+body.personality .hero-journey>div>span{color:#ead4b0;border-color:#eee0f14d}
+body.personality dialog::backdrop{background:#32263fb8}
+.personality-tabs{background:#ece5f3;border-color:#e0d5eb}
+.personality-tabs .active{color:#634a78;box-shadow:0 2px 8px #49345f0b}
+.personality-welcome h3 em{color:#795991}
+.personality-welcome-copy>p:not(.hint){font-size:16px;line-height:2}
+.personality-kicker{font-size:13px;background:#f1ebf7;color:#674d7b}
+.personality-orbit:before{background:#efe8f5}
+.orbit-ring{border-color:#ccbddd}
+.orbit-ring:after{border-color:#dcd0e8}
+.orbit-type{border-color:#e4daee;box-shadow:0 10px 24px #49345f08}
+.orbit-one{color:#70558d}
+.orbit-two{color:#447668}
+.orbit-three{color:#4f748e}
+.orbit-four{color:#846431}
+.orbit-center{color:#a27c47}
+.orbit-center small{color:#7a6038;font-size:12px}
+.personality-guide li{font-size:14px}
+.personality-guide small{font-size:12px}
+.personality-topline h2{font-size:28px}
+.personality-tabs button{font-size:14px}
+.personality-instructions{font-size:13px;line-height:2}
+.personality-progress-heading,.personality-progress-heading strong{font-size:13px}
+.personality-question legend{font-size:19px;line-height:2;font-weight:700}
+.personality-question-number{font-size:11px;font-weight:500;width:24px;height:24px;line-height:24px}
+.personality-scale-captions{font-size:12px}
+.personality-scale-captions span:first-child{color:#3f716a}
+.personality-scale-captions span:nth-child(2){color:#6d6574}
+.personality-scale-captions span:last-child{color:#715686}
+.personality-scale-choice{--choice-color:#46776e}
+.personality-scale-choice.disagree{--choice-color:#82669c}
+.personality-scale-choice.neutral{--choice-color:#8c8696}
+.personality-test-footer{font-size:12px;line-height:1.9}
+.personality-test-footer button{font-size:12px}
+.personality-method-note{font-size:12px;line-height:2}
+.personality-result-art{background:#f0eaf6}
+.personality-result-hero .hint{font-size:12px}
+.personality-result-hero p:not(.personality-result-code):not(.hint){font-size:15px;line-height:2}
+.personality-trait-heading>span{font-size:12px}
+.personality-trait-labels{font-size:12px;line-height:1.9}
+.personality-trait-bar{background:#e9e3ef}
+.personality-trait .hint,.personality-traits>.hint{font-size:12px;line-height:1.9}
+.personality-insight-columns h4{font-size:15px}
+.personality-insight-columns ul{font-size:13px;line-height:2}
+.personality-catalog-heading p,.personality-group-heading p{font-size:14px}
+.personality-type-card{background:#faf8fc}
+.personality-type-card:hover{background:#fff;box-shadow:0 6px 20px #49345f10}
+.personality-type-icon{background:color-mix(in srgb,var(--group-color) 7%,white);border-color:color-mix(in srgb,var(--group-color) 18%,white)}
+.personality-type-name{font-size:18px}
+.personality-type-tagline{font-size:12px;line-height:1.95}
+.personality-card-link{font-size:12px}
+.personality-type-dialog .personality-type-detail-tagline{font-size:16px;line-height:2}
+
+@media(max-width:1100px){
+  .mode-switch button{font-size:13px;padding-inline:12px}
+  .personality-guide li{font-size:13px}
+  .personality-guide small{font-size:11px}
+}
+@media(max-width:820px){
+  .brand small{font-size:11px}
+  .mode-switch button{min-height:44px}
+  .personality-welcome-copy>p:not(.hint){font-size:14px}
+  .personality-question legend{font-size:18px}
+}
+@media(max-width:540px){
+  .brand{font-size:17px}
+  .brand small{font-size:10px}
+  .mode-switch button{font-size:12px;padding-inline:7px}
+  .tools button{font-size:11px}
+  .banner .eyebrow{font-size:11px}
+  .banner p{font-size:12px}
+  h1{letter-spacing:0}
+  .personality-kicker{font-size:11px}
+  .personality-topline h2{font-size:25px}
+  .personality-tabs button{font-size:13px}
+  .personality-welcome-copy>p:not(.hint){font-size:14px;line-height:2}
+  .personality-welcome-copy>.hint{font-size:11px}
+  .personality-guide li{font-size:13px}
+  .personality-guide small{font-size:11px}
+  .personality-progress-heading,.personality-progress-heading strong{font-size:11px}
+  .personality-instructions{font-size:12px}
+  .personality-question legend{font-size:16px;line-height:2}
+  .personality-question-number{font-size:10px;width:22px;height:22px;line-height:22px}
+  .personality-scale-captions{font-size:11px}
+  .personality-test-footer,.personality-test-footer button{font-size:11px}
+  .personality-method-note{font-size:11px}
+  .personality-result-hero p:not(.personality-result-code):not(.hint){font-size:13px}
+  .personality-result-hero .hint{font-size:11px}
+  .personality-trait-heading>span,.personality-trait-labels,.personality-trait .hint,.personality-traits>.hint{font-size:11px}
+  .personality-insight-columns h4{font-size:14px}
+  .personality-insight-columns ul{font-size:12px}
+  .personality-catalog-heading p,.personality-group-heading p{font-size:12px}
+  .personality-type-name{font-size:16px}
+  .personality-type-tagline,.personality-card-link{font-size:11px}
+}
+@media(max-width:360px){
+  .mode-switch button{font-size:11px;padding-inline:5px}
+  .personality-type-name{font-size:15px}
+  .personality-type-tagline{font-size:10px}
+}

@@ -1,5 +1,15 @@
 # Verification
 
+## Typography and mode palettes — 2026-10-10 (Asia/Riyadh)
+
+Replaced the local-only Foda Naskh declaration with self-hosted Tajawal Regular, Medium, and Bold. Font binaries and the SIL Open Font License came from the [Google Fonts Tajawal directory](https://github.com/google/fonts/tree/main/ofl/tajawal). Verified the font weight metadata and Arabic letters/digit coverage with FontTools, and verified references to all three local font files.
+
+Added `site/theme.css`: Normal mode uses ink blue, sea glass accents, and cool white surfaces; Personality mode uses deep plum, lavender, white cards, and muted complementary accents. Updated normal-wheel segment/text colors and personality dimension/group accents to match. Increased several small labels and descriptions and removed negative letter spacing from Arabic headings.
+
+Checked eighteen representative text/background pairs mathematically against 4.5:1 contrast, including secondary text on page backgrounds, button text, light banner labels against the lighter gradient endpoints, and personality accents on card backgrounds. CSS delimiter checks and JavaScript syntax checks passed. Existing six personality model test groups and twelve simulated DOM interaction checks passed after the style update.
+
+Real-browser visual and viewport verification remains unavailable in this session. Contrast calculations and simulated interaction checks do not verify the final rendered layout.
+
 ## Personality mode and National Day-only Canva — 2026-10-09
 
 Added an independent Arabic personality questionnaire: 60 original statements, seven response levels, ten pages of six statements, and the requested sixteen types in four groups. Each of five axes has twelve equal-weight items, with six reverse-keyed items. Exact ties remain balanced instead of fabricating a type.

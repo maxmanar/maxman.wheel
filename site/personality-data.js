@@ -4,17 +4,17 @@ globalThis.PersonalityModel = (() => {
   const VERSION = 1;
   const PAGE_SIZE = 6;
   const axes = [
-    {id:'EI',title:'الطاقة',positive:'E',negative:'I',positiveName:'انبساط',negativeName:'انطواء',color:'#91694e',description:'كيف تستعيد طاقتك وتتفاعل مع محيطك؟'},
-    {id:'NS',title:'العقل',positive:'N',negative:'S',positiveName:'حدس',negativeName:'ملاحظة',color:'#76628f',description:'هل تبدأ بالاحتمالات والروابط، أم بالوقائع والتفاصيل؟'},
-    {id:'TF',title:'الطبيعة',positive:'T',negative:'F',positiveName:'تفكير',negativeName:'عاطفة',color:'#426e75',description:'ما الذي تعطيه الأولوية عند موازنة القرارات؟'},
-    {id:'JP',title:'الأسلوب',positive:'J',negative:'P',positiveName:'حكم وتنظيم',negativeName:'استكشاف ومرونة',color:'#896834',description:'كيف تتعامل مع الخطط والخيارات المفتوحة؟'},
-    {id:'AT',title:'الهوية',positive:'A',negative:'T',positiveName:'حزم وثقة',negativeName:'تأثر ومراجعة',color:'#64764b',description:'كيف تصف استجابتك للضغط وثقتك بقراراتك؟'}
+    {id:'EI',title:'الطاقة',positive:'E',negative:'I',positiveName:'انبساط',negativeName:'انطواء',color:'#6c527f',description:'كيف تستعيد طاقتك وتتفاعل مع محيطك؟'},
+    {id:'NS',title:'العقل',positive:'N',negative:'S',positiveName:'حدس',negativeName:'ملاحظة',color:'#7d6295',description:'هل تبدأ بالاحتمالات والروابط، أم بالوقائع والتفاصيل؟'},
+    {id:'TF',title:'الطبيعة',positive:'T',negative:'F',positiveName:'تفكير',negativeName:'عاطفة',color:'#3f7977',description:'ما الذي تعطيه الأولوية عند موازنة القرارات؟'},
+    {id:'JP',title:'الأسلوب',positive:'J',negative:'P',positiveName:'حكم وتنظيم',negativeName:'استكشاف ومرونة',color:'#846431',description:'كيف تتعامل مع الخطط والخيارات المفتوحة؟'},
+    {id:'AT',title:'الهوية',positive:'A',negative:'T',positiveName:'حزم وثقة',negativeName:'تأثر ومراجعة',color:'#576e57',description:'كيف تصف استجابتك للضغط وثقتك بقراراتك؟'}
   ];
   const groups = [
-    {id:'analysts',name:'المحللون',tag:'N + T',color:'#786491',description:'يجمعون بين النظر إلى الاحتمالات وتحليلها بالمنطق. يميلون إلى فهم الأنظمة، ومناقشة الأفكار، والبحث عن حلول.'},
-    {id:'diplomats',name:'دبلوماسيون',tag:'N + F',color:'#557965',description:'يربطون الخيال بالقيم والاهتمام بالآخرين. يميلون إلى البحث عن المعنى، وتقريب وجهات النظر، وتشجيع النمو.'},
-    {id:'sentinels',name:'الحراس',tag:'S + J',color:'#527988',description:'يجمعون بين ملاحظة الواقع والتنظيم. يميلون إلى الوفاء بالالتزامات، وحماية الاستقرار، والاهتمام بالتفاصيل.'},
-    {id:'explorers',name:'المستكشفون',tag:'S + P',color:'#8a672f',description:'يجمعون بين التعامل مع الواقع والمرونة. يميلون إلى التجربة، والاستجابة للفرص، والتعلّم بالممارسة.'}
+    {id:'analysts',name:'المحللون',tag:'N + T',color:'#70558d',description:'يجمعون بين النظر إلى الاحتمالات وتحليلها بالمنطق. يميلون إلى فهم الأنظمة، ومناقشة الأفكار، والبحث عن حلول.'},
+    {id:'diplomats',name:'دبلوماسيون',tag:'N + F',color:'#447668',description:'يربطون الخيال بالقيم والاهتمام بالآخرين. يميلون إلى البحث عن المعنى، وتقريب وجهات النظر، وتشجيع النمو.'},
+    {id:'sentinels',name:'الحراس',tag:'S + J',color:'#4f748e',description:'يجمعون بين ملاحظة الواقع والتنظيم. يميلون إلى الوفاء بالالتزامات، وحماية الاستقرار، والاهتمام بالتفاصيل.'},
+    {id:'explorers',name:'المستكشفون',tag:'S + P',color:'#846431',description:'يجمعون بين التعامل مع الواقع والمرونة. يميلون إلى التجربة، والاستجابة للفرص، والتعلّم بالممارسة.'}
   ];
   const types = [
     {code:'INTJ',name:'مهندس معماري',group:'analysts',symbol:'structure',tagline:'يرسم الصورة الكبيرة، ثم يبحث عن طريق واضح إليها.',description:'قد تميل إلى التفكير المستقل وربط التفاصيل بهدف بعيد. تستمتع ببناء تصور متماسك، وفحص الافتراضات قبل الالتزام بخطة.',strengths:['رؤية بعيدة المدى','تحليل الأنظمة','استقلال في التفكير'],growth:['ترك مساحة لتعديل الخطة','شرح أسبابك للآخرين','الانتباه إلى أثر القرار العاطفي'],tip:'حوّل فكرتك الكبيرة إلى خطوة صغيرة، واطلب رأيًا مختلفًا قبل تنفيذها.'},
