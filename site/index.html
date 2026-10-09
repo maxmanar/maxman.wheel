@@ -4,24 +4,28 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#0c493a">
-  <meta name="description" content="احتفِ باليوم الوطني السعودي مع عرض اليوم الوطني ٩٦ وعجلة عزنا بطبعنا: مشاركون وأسئلة باختيارات ومؤقت ونتائج لكل مشارك.">
-  <title>عزنا بطبعنا | عجلة المسابقات</title>
+  <meta name="description" content="عجلة المسابقات: اليوم الوطني، اختيار المشاركين، واختبار اختيار الشخصية العربي لاستكشاف الأنماط الستة عشر.">
+  <title>Maxman Wheel | عجلة المسابقات واختيار الشخصية</title>
   <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
   <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./personality.css">
   <script src="./questions.js" defer></script>
+  <script src="./personality-data.js" defer></script>
+  <script src="./personality.js" defer></script>
   <script src="./app.js" defer></script>
 </head>
 <body>
-<a class="skip-link" href="#play-title">انتقل إلى العجلة</a>
+<a id="skip-main" class="skip-link" href="#play-title">انتقل إلى العجلة</a>
 <div class="national-border" aria-hidden="true"></div>
 <header class="site-header">
   <a class="brand" href="./" aria-label="عجلة المسابقات، الرئيسية">
     <span class="brand-icon" aria-hidden="true">✦</span>
     <span>عجلة المسابقات<small>نجتمع على الحماس</small></span>
   </a>
-  <nav class="mode-switch" aria-label="وضع المسابقة">
+  <nav class="mode-switch" aria-label="وضع الموقع">
     <button id="national" class="active" type="button">اليوم الوطني</button>
     <button id="normal" type="button">الوضع العادي</button>
+    <button id="personality" type="button">اختيار الشخصية</button>
   </nav>
   <div class="tools">
     <button id="sound" type="button" aria-label="تبديل الصوت">الصوت: مفعّل</button>
@@ -36,7 +40,7 @@
       <h1 id="slogan">عزّنا <em>بطبعنا.</em></h1>
       <p id="intro">شاهد عرض الوطن، ثم انطلق إلى المسابقة.</p>
     </div>
-    <div class="hero-journey" aria-label="خطوات المسابقة">
+    <div id="hero-journey" class="hero-journey" aria-label="خطوات المسابقة">
       <div><span>١</span><p>شاهد العرض<small>نحتفي بالوطن</small></p></div>
       <div><span>٢</span><p>جهّز المشاركين<small>أسماء أو أرقام</small></p></div>
       <div><span>٣</span><p>ابدأ التحدّي<small>أدر العجلة وجرّب حظك</small></p></div>
@@ -44,7 +48,7 @@
     <img class="national-logo" src="./assets/national-logo.png" width="178" height="82" alt="عزنا بطبعنا — اليوم الوطني السعودي">
     <div class="pattern" aria-hidden="true">✦</div>
   </section>
-  <section class="presentation-section" aria-labelledby="presentation-title">
+  <section id="presentation-section" class="presentation-section" aria-labelledby="presentation-title">
     <details id="national-presentation" class="presentation panel" open>
       <summary>
         <span class="presentation-heading"><span class="eyebrow">اليوم الوطني السعودي · ٩٦</span><span id="presentation-title">نحتفي بالوطن، ونبدأ التحدّي.</span></span>
@@ -59,13 +63,54 @@
         <figure class="presentation-media">
           <div class="canva-frame">
             <iframe id="canva-presentation" title="عرض اليوم الوطني السعودي ٩٦ من Canva" loading="lazy" width="1280" height="720"
-              src="https://www.canva.com/design/DAHUykI_eY0/jSCGh-_ZVs8PO_nVZlPQOA/view?embed"
+              data-src="https://www.canva.com/design/DAHUykI_eY0/jSCGh-_ZVs8PO_nVZlPQOA/view?embed"
               allowfullscreen="allowfullscreen" allow="fullscreen" referrerpolicy="strict-origin-when-cross-origin"></iframe>
           </div>
         </figure>
       </div>
     </details>
   </section>
+  <section id="personality-section" class="personality-section" aria-labelledby="personality-title" hidden>
+    <div class="personality-topline">
+      <div><span class="eyebrow">مساحة للتعرّف على نفسك</span><h2 id="personality-title" tabindex="-1">اختيار الشخصية</h2></div>
+      <nav class="personality-tabs" aria-label="استكشف الشخصية"><button id="personality-test-tab" class="active" type="button" aria-pressed="true">الاختبار</button><button id="personality-types-tab" type="button" aria-pressed="false">الشخصيات الـ١٦</button></nav>
+    </div>
+    <p id="personality-storage" class="storage-status" role="status" hidden></p>
+    <div id="personality-test-view">
+      <div id="personality-welcome" class="personality-welcome panel">
+        <div class="personality-welcome-copy">
+          <span class="personality-kicker">٦٠ عبارة · نحو ١٠ دقائق · ٥ أبعاد</span>
+          <h3>كل إجابة،<br><em>نافذة على طبعك.</em></h3>
+          <p>كيف تستعيد طاقتك؟ كيف ترى الاحتمالات وتتخذ قراراتك؟ خذ لحظة هادئة، وأجب كما تتصرف عادةً.</p>
+          <button id="personality-start" class="primary" type="button">ابدأ الاختبار <span aria-hidden="true">←</span></button>
+          <p class="hint">تُحفظ إجاباتك على هذا المتصفح فقط، ويمكنك العودة لإكمالها.</p>
+        </div>
+        <div class="personality-orbit" aria-hidden="true"><div class="orbit-ring"></div><span class="orbit-type orbit-one">INTJ</span><span class="orbit-type orbit-two">ENFP</span><span class="orbit-type orbit-three">ISFJ</span><span class="orbit-type orbit-four">ESTP</span><span class="orbit-center">✦<small>اعرف نفسك</small></span></div>
+        <ol class="personality-guide"><li><b>١</b><span>أجب بعفوية<small>لا توجد إجابة صحيحة أو خاطئة</small></span></li><li><b>٢</b><span>اختر درجة موافقتك<small>٧ درجات من الموافقة إلى عدم الموافقة</small></span></li><li><b>٣</b><span>استكشف النتيجة<small>نمطك ونسب ميولك في خمسة أبعاد</small></span></li></ol>
+      </div>
+      <form id="personality-form" class="personality-test panel" novalidate hidden>
+        <div class="personality-progress-heading"><span id="personality-page-label"></span><strong id="personality-progress-label" aria-live="polite"></strong></div>
+        <progress id="personality-progress" value="0" max="60" aria-label="عدد العبارات المجاب عنها"></progress>
+        <p class="personality-instructions">حدّد مدى موافقتك على كل عبارة. الدائرة الوسطى تعني «محايد».</p>
+        <div id="personality-questions"></div>
+        <p id="personality-error" class="personality-error" role="alert"></p>
+        <div class="personality-navigation"><button id="personality-previous" class="secondary" type="button">السابق</button><span id="personality-page-count"></span><button id="personality-next" class="primary" type="submit">التالي <span aria-hidden="true">←</span></button></div>
+        <div class="personality-test-footer"><span>يمكنك تعديل إجاباتك بالعودة إلى الصفحات السابقة.</span><button id="personality-reset" class="text-button" type="button">بدء اختبار جديد</button></div>
+      </form>
+      <section id="personality-result" class="personality-result" aria-labelledby="personality-result-title" hidden>
+        <div class="personality-result-hero panel"><div id="personality-result-art" class="personality-result-art" aria-hidden="true"></div><div><span id="personality-result-group" class="eyebrow"></span><h3 id="personality-result-title" tabindex="-1"></h3><p id="personality-result-code" class="personality-result-code" dir="ltr"></p><p id="personality-result-summary"></p><p id="personality-result-identity" class="hint"></p></div></div>
+        <div class="personality-result-layout"><section class="personality-traits panel" aria-labelledby="personality-traits-title"><span class="eyebrow">كيف توزعت إجاباتك؟</span><h3 id="personality-traits-title">أبعاد شخصيتك</h3><div id="personality-traits"></div><p class="hint">هذه النسب مؤشرات للميل في إجاباتك، وليست نسب دقة أو درجات تفوّق.</p></section><section id="personality-insights" class="personality-insights panel" aria-label="قراءة النتيجة"></section></div>
+        <section id="personality-candidates" class="personality-candidates panel" hidden><h3>أنماط تتوافق مع الأبعاد غير المتعادلة</h3><p class="hint">تساوت إجاباتك في بُعد أو أكثر. استكشف هذه الأنماط أو راجع إجاباتك بدل ترجيح حرف دون فرق.</p><div id="personality-candidate-list" class="personality-type-grid"></div></section>
+        <div class="personality-result-actions"><button id="personality-review" class="secondary" type="button">مراجعة الإجابات</button><button id="personality-copy" class="secondary" type="button">نسخ النتيجة</button><button id="personality-retake" class="primary" type="button">اختبار جديد</button></div><p id="personality-copy-status" class="hint" role="status"></p>
+      </section>
+    </div>
+    <section id="personality-catalog-view" class="personality-catalog-view" aria-labelledby="personality-catalog-title" hidden><div class="personality-catalog-heading"><h3 id="personality-catalog-title">ستة عشر نمطًا، وأربع مجموعات</h3><p>اضغط على أي شخصية لقراءة وصفها. تصف الأنماط ميولًا محتملة، وقد يجتمع فيك أكثر من جانب.</p></div><div id="personality-catalog"></div></section>
+    <p class="personality-method-note">اختبار مستقل بأسئلة عربية أصلية وحساب مبسّط للأبعاد الخمسة. ليس اختبار 16Personalities الرسمي، ولا يستخدم خوارزميته. النتيجة أداة للتأمل وفهم الذات، وليست تشخيصًا نفسيًا.</p>
+  </section>
+  <dialog id="personality-type-dialog" class="personality-type-dialog" aria-labelledby="personality-type-title">
+    <button class="close" type="button" data-close aria-label="إغلاق وصف الشخصية">×</button>
+    <div id="personality-type-content"></div>
+  </dialog>
   <div class="workspace" id="competition" tabindex="-1" role="region" aria-label="ساحة المسابقة">
     <aside class="entries-panel panel" aria-labelledby="entries-title">
       <div class="section-heading"><div><span class="eyebrow">جهّز المسابقة</span><h2 id="entries-title">المشاركون</h2></div><span id="count" class="count">٠</span></div>
@@ -164,3 +209,4 @@
 
 </body>
 </html>
+

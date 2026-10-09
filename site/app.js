@@ -98,6 +98,8 @@ function loadSavedState(){
 }
 let saved=loadSavedState();
 let state=Game.restore(saved,DEFAULT_QUESTIONS),tab='numbers',spinning=false,rotation=0,timer=null,audio=null,resultKind=null;
+let appMode=['national','normal','personality'].includes(saved?.appMode)?saved.appMode:(state.national?'national':'normal');
+state.national=appMode==='national';
 let spinRun=null,frameId=null,confirmAction=null;
 const uid=()=>globalThis.crypto?.randomUUID?.()??`${Date.now()}-${Math.random()}`;
 const key=()=>!state.national?'normal':tab,items=()=>state[key()],textOf=x=>x.text??x.question;
@@ -105,7 +107,7 @@ const current=()=>Game.current(state),active=()=>Game.active(state);
 const participantLabel=p=>/^\d+$/.test(p.key)?'الرقم '+ar(p.key):p.label;
 const personSummary=p=>{const n=Game.stats(state,p.id);return 'أجاب عن '+ar(n.answered)+' من '+ar(n.total)+' سؤالًا · أخطأ '+ar(n.incorrect)+' · لم يعرف '+ar(n.unknown)+' · انتهى الوقت '+ar(n.timed_out)+' · تخطّى '+ar(n.skipped)};
 function save(){
- try{localStorage.setItem('izzna-wheel-v1',JSON.stringify(state));$('storage-status').hidden=true;return true}
+ try{localStorage.setItem('izzna-wheel-v1',JSON.stringify({...state,appMode}));$('storage-status').hidden=true;return true}
  catch{$('storage-status').hidden=false;$('storage-status').textContent='تعذّر حفظ التغييرات في هذا المتصفح. تسري في الجلسة الحالية فقط.';return false}
 }
 function notice(message){$('status').textContent=message}
@@ -121,11 +123,21 @@ $('confirm-dialog').addEventListener('cancel',e=>{e.preventDefault();dismissConf
 $('confirm-accept').onclick=()=>{const action=confirmAction;dismissConfirm();if(!spinning)action?.()};
 function availableQuestions(){return Game.additions(DEFAULT_QUESTIONS,state,150).length}
 function render(){
- const national=state.national,isQ=key()==='questions',p=active();
- document.body.classList.toggle('normal',!national);$('national').classList.toggle('active',national);$('normal').classList.toggle('active',!national);
- $('slogan').innerHTML=national?'عزّنا <em>بطبعنا.</em>':'اختيار واحد، <em>حماس للجميع.</em>';
- document.querySelector('.banner .eyebrow').textContent=national?'اليوم الوطني السعودي السادس والتسعون · ٢٣ سبتمبر':'عجلة المسابقات';
- $('intro').textContent=national?'شاهد عرض الوطن، ثم انطلق إلى المسابقة.':'شاهد العرض، ثم أضف الأسماء وأطلق لحظة الاختيار.';
+ const national=appMode==='national',personality=appMode==='personality',isQ=key()==='questions',p=active();
+ document.body.classList.toggle('normal',appMode==='normal');document.body.classList.toggle('personality',personality);
+ ['national','normal','personality'].forEach(id=>$(id).classList.toggle('active',id===appMode));
+ $('presentation-section').hidden=!national;$('competition').hidden=personality;$('personality-section').hidden=!personality;
+ const presentation=$('canva-presentation');
+ if(national&&!presentation.hasAttribute('src'))presentation.src=presentation.dataset.src;
+ if(!national&&presentation.hasAttribute('src'))presentation.removeAttribute('src');
+ $('sound').hidden=personality;$('settings').hidden=personality;
+ $('skip-main').href=personality?'#personality-title':'#play-title';$('skip-main').textContent=personality?'انتقل إلى اختبار الشخصية':'انتقل إلى العجلة';
+ $('slogan').innerHTML=personality?'اكتشف <em>طبعك.</em>':national?'عزّنا <em>بطبعنا.</em>':'اختيار واحد، <em>حماس للجميع.</em>';
+ document.querySelector('.banner .eyebrow').textContent=personality?'اختيار الشخصية · الأنماط الستة عشر':national?'اليوم الوطني السعودي السادس والتسعون · ٢٣ سبتمبر':'عجلة المسابقات';
+ $('intro').textContent=personality?'رحلة قصيرة إلى طريقة تفكيرك، وقراراتك، وما يمنحك الطاقة.':national?'شاهد عرض الوطن، ثم انطلق إلى المسابقة.':'أضف الأسماء وأطلق لحظة الاختيار.';
+ const steps=personality?[['أجب بعفوية','٦٠ عبارة عربية'],['اكتشف نمطك','٥ أبعاد للشخصية'],['تعرّف على نفسك','١٦ نمطًا مختلفًا']]:national?[['شاهد العرض','نحتفي بالوطن'],['جهّز المشاركين','أسماء أو أرقام'],['ابدأ التحدّي','أدر العجلة وجرّب حظك']]:[['أضف المشاركين','أسماء أو أرقام'],['أدر العجلة','لحظة حماس'],['شاهد الاختيار','دون تكرار']];
+ document.querySelectorAll('#hero-journey p').forEach((el,i)=>{const small=document.createElement('small');small.textContent=steps[i][1];el.replaceChildren(document.createTextNode(steps[i][0]),small)});
+ if(personality)PersonalityUI.activate();
  $('questions-tab').hidden=!national;$('names-tab').classList.toggle('active',!isQ);$('questions-tab').classList.toggle('active',isQ);
  $('entries-title').textContent=isQ?'أسئلة الوطن':'المشاركون';$('list-label').textContent=isQ?'الأسئلة المتبقية':'قائمة المشاركين';
  $('names-controls').hidden=isQ;$('questions-controls').hidden=!isQ;$('remaining').textContent=ar(items().length)+(isQ?' سؤالًا متبقيًا':' مشاركًا');$('count').textContent=ar(items().length);
@@ -134,7 +146,7 @@ function render(){
  $('spin').classList.toggle('is-spinning',spinning);$('cancel-spin').hidden=!spinning;
  $('wheel').setAttribute('aria-label',isQ?'عجلة اختيار الأسئلة':'عجلة اختيار المشاركين');
  $('spin-hint').textContent=spinning?'يمكنك إيقاف العجلة للاختيار الآن، أو إلغاء الدوران دون تسجيل اختيار.':isQ?(p?'السؤال القادم لـ'+participantLabel(p)+'. اضغط «أَدِر العجلة» عندما تكون مستعدًا.':'اختر صاحب الرقم من عجلة الأرقام أولًا، ثم اختر سؤاله.'):national?'يُزال الرقم المختار من العجلة، ويمكنك متابعة أسئلته.':'يُزال الاسم المختار تلقائيًا لمنع التكرار.';
- ['national','normal','names-tab','questions-tab'].forEach(id=>$(id).setAttribute('aria-pressed',String($(id).classList.contains('active'))));
+ ['national','normal','personality','names-tab','questions-tab'].forEach(id=>$(id).setAttribute('aria-pressed',String($(id).classList.contains('active'))));
  $('owner-name').textContent=p?participantLabel(p):'اختر رقمًا أولًا';$('owner-stats').textContent=p?personSummary(p):'ثم انتقل إلى أسئلة الوطن.';$('owner-info').disabled=spinning||!p;
  const stats=p?Game.stats(state,p.id):{answered:0,total:0,unknown:0,incorrect:0,timed_out:0};
  stats.unknown+=stats.incorrect;
@@ -145,12 +157,12 @@ function render(){
  $('entries').replaceChildren();
  if(!items().length){const li=document.createElement('li');li.className='empty';li.textContent=isQ?'القائمة فارغة. أضف أسئلة من البنك أو استعدها لجولة جديدة.':'أضف أسماء أو أرقامًا لبدء المسابقة.';$('entries').append(li)}
  items().forEach((item,i)=>{const li=document.createElement('li'),num=document.createElement('span'),label=document.createElement('span'),del=document.createElement('button');num.className='entry-index';num.textContent=ar(i+1);label.textContent=textOf(item);del.textContent='×';del.setAttribute('aria-label','حذف '+textOf(item));del.disabled=spinning;del.onclick=()=>{if(spinning)return;state[key()]=items().filter(x=>x.id!==item.id);save();render()};li.append(num,label,del);$('entries').append(li)});
- ['national','normal','names-tab','questions-tab','entry','number','restore','clear','question-count','question-number','add-questions','participants','history','settings','clear-participants','clear-competition'].forEach(id=>$(id).disabled=spinning);
+ ['national','normal','personality','names-tab','questions-tab','entry','number','restore','clear','question-count','question-number','add-questions','participants','history','settings','clear-participants','clear-competition'].forEach(id=>$(id).disabled=spinning);
  $('reset-owner').disabled=spinning||!p;
  $('reset-owner').title=p?'إعادة ضبط معلومات '+participantLabel(p):'اختر صاحب الدور من عجلة الأرقام أولًا';
  document.querySelectorAll('#names-controls button').forEach(b=>b.disabled=spinning);
  const available=availableQuestions();$('question-number-help').textContent='في العجلة '+ar(state.questions.length)+' سؤالًا · متاح للإضافة '+ar(available)+' من البنك الأصلي (١٥٠ سؤالًا).';
- draw();
+ if(!personality)draw();
 }
 function draw(){
  const ctx=$('wheel').getContext('2d'),n=items().length,cx=480,r=473,font=getComputedStyle(document.body).fontFamily;ctx.clearRect(0,0,960,960);
@@ -202,8 +214,8 @@ function clearAllParticipantData(){
 }
 $('clear-participants').onclick=clearAllParticipantData;$('clear-competition').onclick=clearAllParticipantData;
 $('clear').onclick=()=>{if(spinning||!items().length)return;const target=key();askConfirm('مسح القائمة','هل تريد مسح القائمة الحالية؟ يمكنك إضافتها من جديد.',()=>{state[target]=[];rotation=0;save();render();notice('تم مسح القائمة.')})};
-function changeMode(n){if(spinning)return;state.national=n;rotation=0;notice('');save();render()}
-$('national').onclick=()=>changeMode(true);$('normal').onclick=()=>changeMode(false);
+function changeMode(mode){if(spinning||!['national','normal','personality'].includes(mode))return;appMode=mode;state.national=mode==='national';rotation=0;notice('');save();render()}
+$('national').onclick=()=>changeMode('national');$('normal').onclick=()=>changeMode('normal');$('personality').onclick=()=>changeMode('personality');
 function changeTab(t){if(spinning)return;tab=t;rotation=0;notice('');render()}
 $('names-tab').onclick=()=>changeTab('numbers');$('questions-tab').onclick=()=>changeTab('questions');
 $('go-to-entries').onclick=()=>{$('entry').scrollIntoView({block:'center'});$('entry').focus({preventScroll:true})};
@@ -211,7 +223,7 @@ function tone(hz=550,length=.035){if(!state.config.sound)return;try{audio??=new(
 $('sound').onclick=()=>{state.config.sound=!state.config.sound;save();$('sound').textContent='الصوت: '+(state.config.sound?'مفعّل':'مغلق')};
 function randomIndex(n){if(globalThis.crypto?.getRandomValues){const a=new Uint32Array(1),max=Math.floor(4294967296/n)*n;do{crypto.getRandomValues(a)}while(a[0]>=max);return a[0]%n}return Math.floor(Math.random()*n)}
 function spin(){
- if(spinning||!items().length||document.querySelector('dialog[open]'))return;const activeKey=key();if(activeKey==='questions'&&!active()){notice('اختر صاحب الرقم أولًا.');changeTab('numbers');return}
+ if(appMode==='personality'||spinning||!items().length||document.querySelector('dialog[open]'))return;const activeKey=key();if(activeKey==='questions'&&!active()){notice('اختر صاحب الرقم أولًا.');changeTab('numbers');return}
  const unfinished=current();if(unfinished?.outcome==='pending'){openQuestion(unfinished);return}
  const pool=items().slice(),i=randomIndex(pool.length),arc=2*Math.PI/pool.length,start=rotation,tau=2*Math.PI,desired=-Math.PI/2-(i+.5)*arc,delta=((desired-start)%tau+tau)%tau+6*tau;
  const duration=matchMedia('(prefers-reduced-motion: reduce)').matches?150:state.config.duration*1000;
@@ -329,5 +341,6 @@ function renderParticipant(){const id=$('participant-select').value,p=state.part
 }
 $('participants').onclick=openParticipants;$('owner-info').onclick=openParticipants;$('participant-select').onchange=renderParticipant;
 $('resume-participant').onclick=()=>{if(spinning)return;state.activeParticipantId=$('participant-select').value;save();$('participants-dialog').close();changeTab('questions')};
-render();if(document.fonts)document.fonts.ready.then(()=>{if(!spinning)draw()});
-if(current()){state.national=true;tab='questions';render();openQuestion(current())}
+render();if(document.fonts)document.fonts.ready.then(()=>{if(!spinning&&appMode!=='personality')draw()});
+if(current()){appMode='national';state.national=true;tab='questions';render();openQuestion(current())}
+

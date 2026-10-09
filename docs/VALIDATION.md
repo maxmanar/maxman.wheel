@@ -1,5 +1,27 @@
 # Verification
 
+## Personality mode and National Day-only Canva — 2026-10-09
+
+Added an independent Arabic personality questionnaire: 60 original statements, seven response levels, ten pages of six statements, and the requested sixteen types in four groups. Each of five axes has twelve equal-weight items, with six reverse-keyed items. Exact ties remain balanced instead of fabricating a type.
+
+Six built-in Node test groups passed in `tests/personality-model.test.cjs`: all 32 type/identity combinations, direction and response-strength checks, complete-neutral and partial ties, percentage bounds, missing/invalid/inherited answers, and saved-state recovery. Syntax checks passed for all three modified/new application scripts.
+
+Twelve additional checks executed the actual game and personality scripts against a lightweight DOM simulation. They verified:
+
+- Canva loads in National Day and its iframe source is removed in both other modes.
+- All sixteen catalog cards open the corresponding descriptions, with four cards per group.
+- Incomplete pages cannot advance; every statement has seven named native radio inputs and no default answer.
+- Forward/back navigation, checked answers, progress, mode switching, and reload preserve test progress.
+- A completed 60-answer journey displays a type, A/T suffix, and five result bars.
+- Reviewing answers updates percentages; restarting requires confirmation and preserves wheel participants.
+- Neutral answers display balanced dimensions and all compatible candidates.
+- Denied storage keeps the test usable for the session and shows an accurate message.
+- Corrupt saved completion flags cannot bypass missing answers on earlier pages.
+- Personality mode cannot interrupt an active spin; cancellation preserves entries, and a subsequent wheel selection still works.
+- Prior normal-mode saved state remains normal and never loads Canva.
+
+These are calculation, source, and simulated DOM interaction checks, not browser rendering checks. Browser preview was unavailable in this session, so visual layout, native keyboard interaction, and clipboard permission behavior were not tested in a real browser. The responsive CSS includes 1100, 820, 540, and 360 px breakpoints and reduced-motion handling; this pass does not claim viewport screenshots or real-device verification.
+
 ## Canva embed — 2026-09-13
 
 The user-provided Canva embed URL was inserted above the competition, with its 16:9 container, lazy loading, an accessible iframe title, fullscreen permission, and a separate viewing link. Introductory copy and the three-step journey were aligned with watching the presentation and starting the competition. A native details control collapses or expands the presentation without altering competition data.
@@ -57,3 +79,4 @@ The full-delete confirmation was exercised with Cancel, Escape and Confirm. All 
 Ambiguous prompts were clarified for single-answer grading. For example, the Jeddah flagpole question now asks for the city, and the aseeda question describes its preparation. Selected factual references used in this pass: [Jeddah Flagpole](https://en.wikipedia.org/wiki/Jeddah_Flagpole), [Saudipedia — العصيدة](https://saudipedia.com/العصيدة), and [Saudi Red Crescent — emergency numbers](https://www.srca.gov.sa/). These references support those specific entries; this report does not claim an external fact check of every question.
 
 This is a record of tested scenarios, not a guarantee against every possible browser or device issue. Vercel deployment is performed by the repository owner after import.
+
